@@ -22,3 +22,14 @@ jobs:
         script: |
           env
           ls -al
+
+          - name: list upgradable packages
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            key: ${{ secrets.SSH_KEY }}
+            timeout: 30s
+            script: |
+              sudo apt update -yy
+              sudo apt list --upgradable -yy
