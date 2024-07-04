@@ -23,6 +23,10 @@ jobs:
           env
           ls -al
 
+  blah:
+    name: Blah
+    runs-on: ubuntu-latest
+    steps:
     - name: list upgradable packages
       uses: appleboy/ssh-action@master
       with:
