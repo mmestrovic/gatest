@@ -20,5 +20,5 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         timeout: 30s
         script: |
-          whoami
+          env
           ls -al
