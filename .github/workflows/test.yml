@@ -4,58 +4,56 @@ on:
   workflow_dispatch:
     inputs:
       logLevel:
-        description: 'Log level'     
+        description: "Log level"
         required: true
-
 
       boolean:
         type: boolean
         description: True or False
-            
+
       environment:
         description: Select an environment
         type: choice
         required: true
-        default: 'dev'
+        default: "dev"
         options:
-        - dev
-        - qa
-        - stg
-        - pre
-        - prod
+          - dev
+          - qa
+          - stg
+          - pre
+          - prod
 
       tags:
-        description: 'Test scenario tags'
+        description: "Test scenario tags"
 
 env:
-  DOTNET_VERSION: '6.0.x'
+  DOTNET_VERSION: "6.0.x"
   DAY_OF_WEEK: Monday
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: Set up .NET
-          uses: actions/setup-dotnet@v4
-          with:
-            global-json-file: global.json
-        - name: Show dotnet version
-          run: dotnet --version
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Show dotnet version
+        run: dotnet --version
 
   printInputs:
     needs: build
     name: Print Inputs
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Tags: ${{ github.event.inputs.tags }}"
-        
+      - run: |
+          echo "Log level: ${{ github.event.inputs.logLevel }}"
+          echo "Tags: ${{ github.event.inputs.tags }}"
+
   greetingJob:
     needs: printInputs
     name: Greeting Jobs
@@ -63,11 +61,11 @@ jobs:
     env:
       Greeting: Hello
     steps:
-    - name: "Say Hello Mona it's Monday"
-      if: ${{ env.DAY_OF_WEEK == 'Monday' }}
-      run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
-      env:
-        First_Name: Mona
+      - name: "Say Hello Mona it's Monday"
+        if: ${{ env.DAY_OF_WEEK == 'Monday' }}
+        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+        env:
+          First_Name: Mona
 
   telegram:
     name: Telegram
@@ -81,7 +79,7 @@ jobs:
           message: |
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.workflow_run.head_commit.message }}
-            
+
             Repository: ${{ github.repository }}
-            
+
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
