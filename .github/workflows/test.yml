@@ -26,6 +26,8 @@ on:
       tags:
         description: "Test scenario tags"
 
+  workflow_call:
+
 env:
   DOTNET_VERSION: "6.0.x"
   DAY_OF_WEEK: Monday
