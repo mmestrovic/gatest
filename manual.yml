@@ -1,0 +1,37 @@
+name: Manual run of .NET
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'  
+env:
+  DOTNET_VERSION: 
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up .NET
+          uses: actions/setup-dotnet@v4
+          with:
+              dotnet-version: '6.0.x'
+        - name: Show dotnet version
+          run: dotnet --version
+
+  printInputs:
+    name: Print Inputs
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo "Log level: ${{ github.event.inputs.logLevel }}"
+        echo "Tags: ${{ github.event.inputs.tags }}
