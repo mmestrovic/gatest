@@ -83,4 +83,4 @@ jobs:
 
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-            ${{ format('{{Hello {0} {1} {2}!}}', 'Mona', 'the', 'Octocat') }}
+            ${{ format('Hello {0} {1} {2}', 'Mona', 'the', 'Octocat') }}
