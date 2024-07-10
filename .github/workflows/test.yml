@@ -28,7 +28,7 @@ on:
         description: 'Test scenario tags'
 
 env:
-  DOTNET_VERSION: 
+  DOTNET_VERSION: '6.0.1'
   DAY_OF_WEEK: Monday
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
         - name: Set up .NET
           uses: actions/setup-dotnet@v4
           with:
-              dotnet-version: '6.0.x'
+              dotnet-version: ${{ env.DOTNET_VERSION }}
         - name: Show dotnet version
           run: dotnet --version
 
