@@ -7,17 +7,12 @@ on:
         description: "Log level"
         required: true
 
-      boolean:
-        type: boolean
-        description: True or False
-
       environment:
         description: Select an environment
         type: choice
         required: true
         default: "dev"
         options:
-          - dev
           - qa
           - stg
           - pre
@@ -25,31 +20,31 @@ on:
           - dr
 
       app3:
-          type: boolean
-          description: Deploy on app3
-          default: true
+        type: boolean
+        description: Deploy on app3
+        default: true
 
       app4:
-          type: boolean
-          description: Deploy on app4
-          default: true
+        type: boolean
+        description: Deploy on app4
+        default: true
 
       app5:
-            type: boolean
-            description: Deploy on app5
-            default: true
+        type: boolean
+        description: Deploy on app5
+        default: true
 
       app8:
-              type: boolean
-              description: Deploy on app8
+        type: boolean
+        description: Deploy on app8
 
       app9:
-                type: boolean
-                description: Deploy on app9
+        type: boolean
+        description: Deploy on app9
 
       app10:
-                  type: boolean
-                  description: Deploy on app10
+        type: boolean
+        description: Deploy on app10
 
   workflow_call:
 
@@ -87,3 +82,5 @@ jobs:
             Repository: ${{ github.repository }}
 
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+            format('{{Hello {0} {1} {2}!}}', 'Mona', 'the', 'Octocat')
