@@ -28,7 +28,7 @@ on:
         description: 'Test scenario tags'
 
 env:
-  DOTNET_VERSION: '6.0.1'
+  DOTNET_VERSION: '6.0.x'
   DAY_OF_WEEK: Monday
 
 jobs:
