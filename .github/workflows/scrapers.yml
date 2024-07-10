@@ -85,4 +85,4 @@ jobs:
 
             ${{ format('Hello {0} {1} {2}', 'Mona', 'the', 'Octocat') }}
 
-            ${{ toJson(github.workflow.inputs) }}
+            ${{ toJson(inputs) }}
