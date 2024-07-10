@@ -6,11 +6,30 @@ on:
       logLevel:
         description: 'Log level'     
         required: true
-        default: 'warning'
+
+
+      boolean:
+        type: boolean
+        description: True or False
+            
+      environment:
+        description: Select an environment
+        type: choice
+        required: true
+        default: 'dev'
+        options:
+        - dev
+        - qa
+        - stg
+        - pre
+        - prod
+
       tags:
-        description: 'Test scenario tags'  
+        description: 'Test scenario tags'
+
 env:
   DOTNET_VERSION: 
+  DAY_OF_WEEK: Monday
 
 jobs:
 
@@ -34,4 +53,16 @@ jobs:
     steps:
     - run: |
         echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Tags: ${{ github.event.inputs.tags }}
+        echo "Tags: ${{ github.event.inputs.tags }}"
+        
+  greetingJob:
+    name: Greeting Jobs
+    runs-on: ubuntu-latest
+    env:
+      Greeting: Hello
+    steps:
+    - name: "Say Hello Mona it's Monday"
+      if: ${{ env.DAY_OF_WEEK == 'Monday' }}
+      run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+      env:
+        First_Name: Mona
