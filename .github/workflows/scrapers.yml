@@ -3,15 +3,11 @@ name: Deploy scrapers
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: "Log level"
-        required: true
 
       environment:
         description: Select an environment
         type: choice
         required: true
-        default: "dev"
         options:
           - qa
           - stg
@@ -83,6 +79,5 @@ jobs:
 
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-            ${{ format('Hello {0} {1} {2}', 'Mona', 'the', 'Octocat') }}
-
+            This is passed to Saltmaster:
             ${{ toJson(inputs) }}
