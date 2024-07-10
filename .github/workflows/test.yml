@@ -43,7 +43,7 @@ jobs:
         - name: Set up .NET
           uses: actions/setup-dotnet@v4
           with:
-              dotnet-version: ${{ env.DOTNET_VERSION }}
+            global-json-file: global.json
         - name: Show dotnet version
           run: dotnet --version
 
@@ -80,7 +80,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
+            Commit message: ${{ github.event.workflow_run.head_commit.message }}
             
             Repository: ${{ github.repository }}
             
