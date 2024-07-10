@@ -1,0 +1,86 @@
+name: Manual run of .NET
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Log level"
+        required: true
+
+      boolean:
+        type: boolean
+        description: True or False
+
+      environment:
+        description: Select an environment
+        type: choice
+        required: true
+        default: "dev"
+        options:
+          - dev
+          - qa
+          - stg
+          - pre
+          - prod
+          - dr
+
+      app3:
+          type: boolean
+          description: Deploy on app3
+
+      app4:
+          type: boolean
+          description: Deploy on app3
+
+      app5:
+            type: boolean
+            description: Deploy on app3
+
+      app8:
+              type: boolean
+              description: Deploy on app3
+
+      app9:
+                type: boolean
+                description: Deploy on app3
+                
+      app10:
+                  type: boolean
+                  description: Deploy on app3
+
+  workflow_call:
+
+env:
+  APP_NAME: "scrapers"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Show dotnet version
+        run: dotnet --version
+
+  telegram:
+    name: Telegram
+    runs-on: ubuntu-latest
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.workflow_run.head_commit.message }}
+
+            Repository: ${{ github.repository }}
+
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
