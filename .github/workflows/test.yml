@@ -48,6 +48,7 @@ jobs:
           run: dotnet --version
 
   printInputs:
+    needs: build
     name: Print Inputs
     runs-on: ubuntu-latest
     steps:
@@ -56,6 +57,7 @@ jobs:
         echo "Tags: ${{ github.event.inputs.tags }}"
         
   greetingJob:
+    needs: printInputs
     name: Greeting Jobs
     runs-on: ubuntu-latest
     env:
