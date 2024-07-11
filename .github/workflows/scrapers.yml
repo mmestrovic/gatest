@@ -51,7 +51,7 @@ on:
 
 env:
   APP_NAME: "scrapers"
-  SALTMASTER: ${{ github.inputs.environment == 'main' && 'saltmaster.prod.findox.int' || 'saltmaster.lower.findox.int' }}
+  SALTMASTER: ${{ github.workflow.inputs.environment == 'main' && 'saltmaster.prod.findox.int' || 'saltmaster.lower.findox.int' }}
 
 jobs:
   build:
@@ -79,8 +79,8 @@ jobs:
     name: Saltmaster
     runs-on: ubuntu-latest
     steps:
-      - name: Print deployment info
-        run: echo "${{ toJson(inputs) }}"
+      - name: Print Saltmaster info
+        run: echo "${{env.SALTMASTER }}"
 
   telegram:
     name: Telegram
