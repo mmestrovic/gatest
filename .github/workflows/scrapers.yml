@@ -46,14 +46,19 @@ on:
 
   workflow_call:
 
-
-
-
 env:
   APP_NAME: "scrapers"
   SALTMASTER: ${{ github.workflow.inputs.environment == 'main' && 'saltmaster.prod.findox.int' || 'saltmaster.lower.findox.int' }}
 
 jobs:
+
+  prepare:
+    name: Set Saltmaster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if prod
+        if: ${{ github.workflow.inputs.environment == 'prod' }}
+        run: echo "running on prod..."
   build:
     name: Build
     runs-on: ubuntu-latest
