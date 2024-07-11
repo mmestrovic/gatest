@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print deployment info
-        run: echo ${{ toJson(inputs) }}
+        run: echo "${{ toJson(inputs) }}"
 
   telegram:
     name: Telegram
