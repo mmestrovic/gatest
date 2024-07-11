@@ -48,7 +48,7 @@ on:
 
 env:
   APP_NAME: "scrapers"
-  SALTMASTER: ${{ inputs.environment == 'prod' && 'saltmaster.prod.findox.int' || 'saltmaster.lower.findox.int' }}
+  SALTMASTER: 
 
 jobs:
 
@@ -66,11 +66,11 @@ jobs:
 
       - name: Configuration for stg branch
         if: ${{ inputs.environment == 'stg' }}
-        run: echo "SALTMASTER=saltmaster.sth.reorg.int" >> $GITHUB_ENV
+        run: echo "SALTMASTER=saltmaster.stg.reorg.int" >> $GITHUB_ENV
 
       - name: Configuration for pre branch
         if: ${{ inputs.environment == 'pre' }}
-        run: echo "SALTMASTER=saltmaster.sth.reorg.int" >> $GITHUB_ENV
+        run: echo "SALTMASTER=saltmaster.pre.reorg.int" >> $GITHUB_ENV
 
 
   build:
