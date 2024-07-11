@@ -48,7 +48,6 @@ on:
 
 env:
   APP_NAME: "scrapers"
-  SALTMASTER: 
 
 jobs:
 
@@ -74,6 +73,7 @@ jobs:
 
 
   build:
+    needs: prepare
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -88,6 +88,7 @@ jobs:
         run: dotnet --version
 
   pillar:
+    needs: build
     name: Pillar info
     runs-on: ubuntu-latest
     steps:
@@ -95,13 +96,15 @@ jobs:
         run: echo "${{ toJson(inputs) }}"
 
   saltmaster:
+    needs: pillar
     name: Saltmaster
     runs-on: ubuntu-latest
     steps:
       - name: Print Saltmaster info
-        run: echo "${{env.SALTMASTER }}"
+        run: echo "${{ env.SALTMASTER }}"
 
   telegram:
+    needs: saltmaster
     name: Telegram
     runs-on: ubuntu-latest
     steps:
