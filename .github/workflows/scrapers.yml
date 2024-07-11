@@ -48,7 +48,7 @@ on:
 
 env:
   APP_NAME: "scrapers"
-  SALTMASTER: ${{ github.workflow.inputs.environment == 'main' && 'saltmaster.prod.findox.int' || 'saltmaster.lower.findox.int' }}
+  SALTMASTER: ${{ github.workflow.inputs.environment == 'prod' && 'saltmaster.prod.findox.int' || 'saltmaster.lower.findox.int' }}
 
 jobs:
 
@@ -58,7 +58,21 @@ jobs:
     steps:
       - name: Check if prod
         if: ${{ github.workflow.inputs.environment == 'prod' }}
-        run: echo "running on prod..."
+        run: echo "SALTMASTER=saltmaster.prod.reorg.int" >> $GITHUB_ENV
+
+      - name: Configuration for qa branch
+        if: ${{ github.workflow.inputs.environment == 'qa' }}
+        run: echo "SALTMASTER=saltmaster.qa.reorg.int" >> $GITHUB_ENV
+
+      - name: Configuration for stg branch
+        if: ${{ github.workflow.inputs.environment == 'stg' }}
+        run: echo "SALTMASTER=saltmaster.sth.reorg.int" >> $GITHUB_ENV
+
+      - name: Configuration for pre branch
+        if: ${{ github.workflow.inputs.environment == 'pre' }}
+        run: echo "SALTMASTER=saltmaster.sth.reorg.int" >> $GITHUB_ENV
+
+
   build:
     name: Build
     runs-on: ubuntu-latest
