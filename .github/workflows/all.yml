@@ -6,3 +6,6 @@ on:
 jobs:
   call-test:
     uses: ./.github/workflows/test.yml
+
+  call-scrapers:
+    uses: ./.github/workflows/scrapers.yml
