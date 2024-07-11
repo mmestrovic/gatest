@@ -32,19 +32,26 @@ on:
       app8:
         type: boolean
         description: Deploy on app8
+        default: true
 
       app9:
         type: boolean
         description: Deploy on app9
+        default: true
 
       app10:
         type: boolean
         description: Deploy on app10
+        default: true
 
   workflow_call:
 
+
+
+
 env:
   APP_NAME: "scrapers"
+  SALTMASTER: ${{ github.inputs.environment == 'main' && 'saltmaster.prod.findox.int' || 'saltmaster.lower.findox.int' }}
 
 jobs:
   build:
@@ -60,6 +67,14 @@ jobs:
           global-json-file: global.json
       - name: Show dotnet version
         run: dotnet --version
+
+  pillar:
+    name: Pillar info
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deployment info
+        run: echo "${{ toJson(inputs) }}"
+
   saltmaster:
     name: Saltmaster
     runs-on: ubuntu-latest
