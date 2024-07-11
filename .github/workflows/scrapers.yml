@@ -3,7 +3,6 @@ name: Deploy scrapers
 on:
   workflow_dispatch:
     inputs:
-
       environment:
         description: Select an environment
         type: choice
@@ -61,6 +60,12 @@ jobs:
           global-json-file: global.json
       - name: Show dotnet version
         run: dotnet --version
+  saltmaster:
+    name: Saltmaster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deployment info
+        run: echo ${{ toJson(inputs) }}
 
   telegram:
     name: Telegram
