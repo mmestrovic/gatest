@@ -48,3 +48,9 @@ jobs:
           source_dir: 'demo'
       - name: Print URL
         run: echo ${{ steps.S32.outputs.object_locations}}
+
+      - name: Store build timestamp
+        run: echo "BUILD_TIME=$(date +'%T')" >> $GITHUB_ENV
+    
+      - name: Deploy using stored timestamp
+        run: echo "Deploying at $BUILD_TIME"
