@@ -28,12 +28,12 @@ jobs:
         id: branch_check
         run: |
           echo "Running on branch ${{ github.ref }}"
-          
+
           if [ "${{ github.ref }}" = "prod" ]; then
             echo "::set-output name=env_name::prod"
           elif [ "${{ github.ref }}" = "stg" ]; then
             echo "::set-output name=env_name::staging"
-          elif [ "${{ github.ref }}" = "qa" ];
+          elif [ "${{ github.ref }}" = "qa" ]; then
             echo "::set-output name=env_name::qa"
           elif [ "${{ github.ref }}" = "pre" ]; then
             echo "::set-output name=env_name::pre"
