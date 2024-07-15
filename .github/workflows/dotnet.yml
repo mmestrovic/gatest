@@ -35,6 +35,12 @@ jobs:
           public: false
           expire: 604800
           file-path: 'global.json'
-          output-file-url: 'true' # specify true
-      - name: Show URL
-        run: echo '${{ steps.S3.outputs.file-url }}' # use this output
+          output-file-url: 'true'
+      - name: Update URL
+        run: echo '${{ steps.S3.outputs.file-url }}' 
+      - name: rename
+        uses: mad9000/actions-find-and-replace-string@5
+        with:
+          source: ${{ steps.S3.outputs.file-url }}
+          find: 'https://***.'
+          replace: 'https://${{ secrets.AWS_BUCKET_NAME }}'
