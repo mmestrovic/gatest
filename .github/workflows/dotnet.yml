@@ -33,5 +33,6 @@ jobs:
           aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
           aws-region: 'us-east-1'
           file-path: 'global.json'
-      - name: Github Workflows
-        run: echo "https://s3.amazonaws.com/bucketName/${{steps.S3.outputs.object_key}}/index.html"
+          output-file-url: 'true' # specify true
+      - name: Show URL
+        run: echo '${{ steps.S3.outputs.file-url }}' # use this output
