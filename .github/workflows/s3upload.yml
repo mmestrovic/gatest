@@ -92,4 +92,4 @@ jobs:
         run: echo "Deploying at $BUILD_TIME"
 
       - name: Print saltmaster
-        run: echo ${{ var.SALTMASTER }}
+        run: echo ${{ vars.SALTMASTER }}
