@@ -32,7 +32,7 @@ jobs:
           if [ "${{ inputs.environment }}" = "prod" ]; then
             echo "::set-output name=env_name::prod"
           elif [ "${{ inputs.environment }}" = "stg" ]; then
-            echo "::set-output name=env_name::staging"
+            echo "::set-output name=env_name::stg"
           elif [ "${{ inputs.environment }}" = "qa" ]; then
             echo "::set-output name=env_name::qa"
           elif [ "${{ inputs.environment }}" = "pre" ]; then
