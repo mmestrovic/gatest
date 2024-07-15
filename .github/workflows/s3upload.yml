@@ -38,17 +38,6 @@ jobs:
           output_file_name: output.txt
           display_file_content: YES
 
-      - name: Upload S3
-        uses: shallwefootball/s3-upload-action@master
-        id: S32
-        with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET_NAME }}
-          source_dir: 'demo'
-      - name: Print URL
-        run: echo ${{ steps.S32.outputs.object_locations}}
-
       - name: Store build timestamp
         run: echo "BUILD_TIME=$(date +'%T')" >> $GITHUB_ENV
     
