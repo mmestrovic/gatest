@@ -35,4 +35,4 @@ jobs:
         env:
           S3_URL: ${{ steps.S3.outputs.file-url }}
         run: | 
-          echo $S3_URL
+          echo $S3_URL | sed 's/***/${{ secrets.AWS_BUCKET_NAME }}/'
