@@ -32,6 +32,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
           aws-region: 'us-east-1'
+          public: false
           file-path: 'global.json'
           output-file-url: 'true' # specify true
       - name: Show URL
