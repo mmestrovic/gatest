@@ -42,7 +42,7 @@ jobs:
         id: rename
         uses: mad9000/actions-find-and-replace-string@5
         with:
-          source: ${{ steps.S3.outputs.file-url }}
+          source: '${{ steps.S3.outputs.file-url }}'
           find: 'https://***.'
           replace: 'https://${{ secrets.AWS_BUCKET_NAME }}.'
       - name: Print URL
