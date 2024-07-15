@@ -32,6 +32,7 @@ jobs:
           file-path: 'global.json'
           output-file-url: 'true'
       - name: Update URL
+        env:
+          S3_URL: ${{ steps.S3.outputs.file-url }}
         run: | 
-          URL='${{ steps.S3.outputs.file-url }}'
-          echo $URL
+          echo '$URL'
