@@ -1,9 +1,7 @@
 name: Set up .NET
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:

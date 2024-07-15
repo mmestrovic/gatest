@@ -1,10 +1,7 @@
 name: Remote update execution
 
 on:
-
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
 
