@@ -43,7 +43,10 @@ jobs:
               
       - name: Use environment setup in previous step
         run: echo "Setting up environment ${{ steps.branch_check.outputs.env_name }}"
-          
+
+      - name: Print saltmaster
+        run: echo ${{ vars.SALTMASTER }}
+        
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
  
@@ -91,5 +94,3 @@ jobs:
       - name: Deploy using stored timestamp
         run: echo "Deploying at $BUILD_TIME"
 
-      - name: Print saltmaster
-        run: echo ${{ vars.SALTMASTER }}
