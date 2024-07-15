@@ -38,5 +38,5 @@ jobs:
           output-file-url: 'true'
       - name: Update URL
         run: | 
-          URL=${{ steps.S3.outputs.file-url }}
+          URL='${{ steps.S3.outputs.file-url }}'
           echo $URL
