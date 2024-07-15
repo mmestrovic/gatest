@@ -31,12 +31,15 @@ jobs:
           expire: 604800
           file-path: 'global.json'
           output-file-url: 'true'
+      - name: S# URL to file
+        uses: GuillaumeFalourd/command-output-file-action@v1.1
+        with:
+          command_line: echo ${{ steps.S3.outputs.file-url }}
+          output_file_name: output.txt
+          display_file_content: YES # this is also the default value if not informed
       - name: Update URL
         env:
           S3_URL: ${{ steps.S3.outputs.file-url }}
         run: | 
-          echo $S3_URL | sed 's/[*]\+/${{ secrets.AWS_BUCKET_NAME }}/'
-          echo $S3_URL | sed 's/[*]\+/${{ secrets.AWS_KEY_ID }}/'
-          echo "S3_URL=$(echo $S3_URL | sed 's/[*]\+/${{ secrets.AWS_BUCKET_NAME }}/')" >> $GITHUB_ENV
-          echo "S3_URL=$(echo $S3_URL | sed 's/[*]\+/${{ secrets.AWS_KEY_ID }}/')" >> $GITHUB_ENV
-          echo $S3_URL
+          sed 's/[*]\+/${{ secrets.AWS_BUCKET_NAME }}/' output.txt
+          cat output.txt
