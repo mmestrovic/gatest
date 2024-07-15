@@ -22,7 +22,7 @@ jobs:
   env_check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Environment check on branch
         id: branch_check
@@ -30,15 +30,15 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
 
           if [ "${{ inputs.environment }}" = "prod" ]; then
-            echo "::set-output name=env_name::prod"
+            echo "env=prod" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.environment }}" = "stg" ]; then
-            echo "::set-output name=env_name::stg"
+            echo "env=stg" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.environment }}" = "qa" ]; then
-            echo "::set-output name=env_name::qa"
+            echo "env=qa" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.environment }}" = "pre" ]; then
-            echo "::set-output name=env_name::pre"
+            echo "env=pre" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=env_name::dev"
+            echo "env=dev" >> $GITHUB_OUTPUT
           fi    
               
       - name: Use environment setup in previous step
@@ -54,7 +54,7 @@ jobs:
       name: ${{ needs.env_check.outputs.env_name }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Print saltmaster
         run: echo ${{ vars.SALTMASTER }} 
