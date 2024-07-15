@@ -1,23 +1,36 @@
 name: Set up .NET
 
 on:
-
   push:
     branches:
       - main
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: Set up .NET
-          uses: actions/setup-dotnet@v4
-          with:
-              dotnet-version: '6.0.x'
-        - name: Show dotnet version
-          run: dotnet --version
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "6.0.x"
+      - name: Show dotnet version
+        run: dotnet --version
+      - name: Upload Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: Upload dir
+          path: .github
+      - name: Upload S3
+        uses: shallwefootball/s3-upload-action@master
+        id: S3
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ secrets.AWS_BUCKET_NAME }}
+          source_dir: github
+      - name: Github Workflows
+        run: echo "https://s3.amazonaws.com/bucketName/${{steps.S3.outputs.object_key}}/index.html"
