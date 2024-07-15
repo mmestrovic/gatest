@@ -17,6 +17,9 @@ on:
 
   workflow_call:
 
+env:
+  APP_NAME: "scrapers"
+
 jobs:
 
   env_check:
@@ -53,6 +56,9 @@ jobs:
     environment:
       name: ${{ needs.env_check.outputs.env_name }}
     steps:
+
+      - name: Print appname
+        run: echo ${{ env.APP_NAME }}
 
       - name: Print env
         run: echo ${{ needs.env_check.outputs.env_name }}
