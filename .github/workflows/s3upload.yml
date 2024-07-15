@@ -38,7 +38,7 @@ jobs:
           elif [ "${{ inputs.environment }}" = "pre" ]; then
             echo "{env}={pre}" >> $GITHUB_OUTPUT
           else
-            echo "{env={dev}" >> $GITHUB_OUTPUT
+            echo "{env}={dev}" >> $GITHUB_OUTPUT
           fi    
               
       - name: Use environment setup in previous step
