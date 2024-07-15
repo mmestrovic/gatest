@@ -37,11 +37,14 @@ jobs:
           command_line: echo ${{ steps.S3.outputs.file-url }}
           output_file_name: output.txt
           display_file_content: YES
-      - name: Update URL
-        env:
-          S3_URL: ${{ steps.S3.outputs.file-url }}
-        run: | 
-          pwd
-          ls -lah 
-          sed -i 's/[*]\+/${{ secrets.AWS_BUCKET_NAME }}/' output.txt
-          cat output.txt
+
+      - name: Upload S3
+        uses: shallwefootball/s3-upload-action@master
+        id: S32
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET_NAME }}
+          source_dir: 'demo'
+      - name: Print URL
+        run: echo ${{ steps.S32.outputs.object_locations}}
