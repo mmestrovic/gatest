@@ -1,8 +1,5 @@
 name: Upload to S3
 
-env:
-  SALTMASTER:
-
 on:
   workflow_dispatch:
     inputs:
@@ -95,4 +92,4 @@ jobs:
         run: echo "Deploying at $BUILD_TIME"
 
       - name: Print saltmaster
-        run: echo ${{ secrets.SALTMASTER }}
+        run: echo ${{ var.SALTMASTER }}
