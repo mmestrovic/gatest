@@ -35,4 +35,4 @@ jobs:
         env:
           S3_URL: ${{ steps.S3.outputs.file-url }}
         run: | 
-          echo $URL
+          echo $S3_URL
