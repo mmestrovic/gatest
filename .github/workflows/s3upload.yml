@@ -95,4 +95,4 @@ jobs:
         run: echo "Deploying at $BUILD_TIME"
 
       - name: Print saltmaster
-        run: echo ${{ env.SALTMASTER }}
+        run: echo ${{ secrets.SALTMASTER }}
