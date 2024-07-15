@@ -2,10 +2,60 @@ name: Upload to S3
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: Select an environment
+        type: choice
+        required: true
+        default: "dev"
+        options:
+          - dev
+          - qa
+          - stg
+          - pre
+          - prod
 
   workflow_call:
 
 jobs:
+
+  env_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Environment check on branch
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          
+          if [ "${{ github.ref }}" = "prod" ]; then
+            echo "::set-output name=env_name::prod"
+          elif [ "${{ github.ref }}" = "stg" ]; then
+            echo "::set-output name=env_name::staging"
+          elif [ "${{ github.ref }}" = "qa" ];
+            echo "::set-output name=env_name::qa"
+          elif [ "${{ github.ref }}" = "pre" ]; then
+            echo "::set-output name=env_name::pre"
+          else
+            echo "::set-output name=env_name::dev"
+          fi    
+              
+      - name: Use environment setup in previous step
+        run: echo "Setting up environment ${{ steps.branch_check.outputs.env_name }}"
+          
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
+ 
+  release_tag:
+    needs: env_check
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.env_check.outputs.env_name }} 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
   upload:
     name: Upload
     runs-on: ubuntu-latest
@@ -31,12 +81,6 @@ jobs:
           expire: 604800
           file-path: 'global.json'
           output-file-url: 'true'
-      - name: S# URL to file
-        uses: GuillaumeFalourd/command-output-file-action@v1.1
-        with:
-          command_line: echo ${{ steps.S3.outputs.file-url }}
-          output_file_name: output.txt
-          display_file_content: YES
 
       - name: Store build timestamp
         run: echo "BUILD_TIME=$(date +'%T')" >> $GITHUB_ENV
