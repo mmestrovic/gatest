@@ -32,6 +32,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
           aws-region: 'us-east-1'
-          file-path: 'demo/*'
+          file-path: 'global.json'
       - name: Github Workflows
         run: echo "https://s3.amazonaws.com/bucketName/${{steps.S3.outputs.object_key}}/index.html"
