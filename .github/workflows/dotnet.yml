@@ -25,12 +25,13 @@ jobs:
           name: Upload dir
           path: demo
       - name: Upload S3
-        uses: shallwefootball/s3-upload-action@master
+        uses: hkusu/s3-upload-action@v2
         id: S3
         with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_bucket: ${{ secrets.AWS_BUCKET_NAME }}
-          source_dir: demo
+          aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
+          aws-region: 'ap-northeast-1'
+          file-path: './demo/*'
       - name: Github Workflows
         run: echo "https://s3.amazonaws.com/bucketName/${{steps.S3.outputs.object_key}}/index.html"
