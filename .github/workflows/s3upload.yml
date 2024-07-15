@@ -30,15 +30,15 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
 
           if [ "${{ inputs.environment }}" = "prod" ]; then
-            echo "env=prod" >> $GITHUB_OUTPUT
+            echo "env_name=prod" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.environment }}" = "stg" ]; then
-            echo "env=stg" >> $GITHUB_OUTPUT
+            echo "env_name=stg" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.environment }}" = "qa" ]; then
-            echo "env=qa" >> $GITHUB_OUTPUT
+            echo "env_name=qa" >> $GITHUB_OUTPUT
           elif [ "${{ inputs.environment }}" = "pre" ]; then
-            echo "env=pre" >> $GITHUB_OUTPUT
+            echo "env_name=pre" >> $GITHUB_OUTPUT
           else
-            echo "env=dev" >> $GITHUB_OUTPUT
+            echo "env_name=dev" >> $GITHUB_OUTPUT
           fi    
               
       - name: Use environment setup in previous step
