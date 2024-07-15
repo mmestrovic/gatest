@@ -44,27 +44,25 @@ jobs:
       - name: Use environment setup in previous step
         run: echo "Setting up environment ${{ steps.branch_check.outputs.env_name }}"
 
-      - name: Print saltmaster
-        run: echo ${{ vars.SALTMASTER }}
-        
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
  
   release_tag:
     needs: env_check
     runs-on: ubuntu-latest
-    environment: 
-      name: ${{ needs.env_check.outputs.env_name }} 
+    environment: ${{ needs.env_check.outputs.env_name }} 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
+      - name: Print saltmaster
+        run: echo ${{ vars.SALTMASTER }}      
+  
   upload:
     name: Upload
     needs: env_check
     runs-on: ubuntu-latest
-    environment: 
-      name: ${{ needs.env_check.outputs.env_name }}
+    environment: ${{ needs.env_check.outputs.env_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
