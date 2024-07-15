@@ -29,13 +29,13 @@ jobs:
         run: |
           echo "Running on branch ${{ github.ref }}"
 
-          if [ "${{ github.ref }}" = "prod" ]; then
+          if [ "${{ inputs.environment }}" = "prod" ]; then
             echo "::set-output name=env_name::prod"
-          elif [ "${{ github.ref }}" = "stg" ]; then
+          elif [ "${{ inputs.environment }}" = "stg" ]; then
             echo "::set-output name=env_name::staging"
-          elif [ "${{ github.ref }}" = "qa" ]; then
+          elif [ "${{ inputs.environment }}" = "qa" ]; then
             echo "::set-output name=env_name::qa"
-          elif [ "${{ github.ref }}" = "pre" ]; then
+          elif [ "${{ inputs.environment }}" = "pre" ]; then
             echo "::set-output name=env_name::pre"
           else
             echo "::set-output name=env_name::dev"
