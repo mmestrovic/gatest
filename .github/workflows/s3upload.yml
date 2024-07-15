@@ -1,5 +1,8 @@
 name: Upload to S3
 
+env:
+  SALTMASTER:
+
 on:
   workflow_dispatch:
     inputs:
@@ -58,7 +61,10 @@ jobs:
       
   upload:
     name: Upload
+    needs: env_check
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.env_check.outputs.env_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -87,3 +93,6 @@ jobs:
     
       - name: Deploy using stored timestamp
         run: echo "Deploying at $BUILD_TIME"
+
+      - name: Print saltmaster
+        run: echo ${{ env.SALTMASTER }}
