@@ -26,17 +26,11 @@ jobs:
       - name: Create ZIP
         uses: thedoctor0/zip-release@0.7.5
         with:
-          command: "mkdir -p release"
-          type: 'tar'
-          path: './release/'
-          filename: 'release.tar'
+          type: 'zip'
+          filename: 'release.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
 
       - name: Run ls in artifact
         run: |
           pwd
           ls -lah
-          cd release
-          pwd
-          ls -lah
-          tree
