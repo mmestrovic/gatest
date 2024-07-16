@@ -28,12 +28,10 @@ jobs:
         with:
           command: "sudo mkdir -p /artifact"
           type: 'tar'
-          path: './artifact/'
           filename: 'release.tar'
           exclusions: '*.git* /*node_modules/* .editorconfig'
 
       - name: Run ls in artifact
         run: |
-          cd artifact
           pwd
           ls -lah
