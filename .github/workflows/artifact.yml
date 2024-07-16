@@ -13,7 +13,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run ls
-        run: ls -alh
+        run: |
+          pwd
+          ls -alh
 
       - name: Run ls in demo
         run: |
@@ -26,12 +28,12 @@ jobs:
         with:
           command: "sudo mkdir -p /artifact"
           type: 'tar'
-          path: '/artifact/'
+          path: './artifact/'
           filename: 'release.tar'
           exclusions: '*.git* /*node_modules/* .editorconfig'
 
       - name: Run ls in artifact
         run: |
-          cd /artifact
+          cd artifact
           pwd
           ls -lah
