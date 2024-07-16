@@ -20,3 +20,12 @@ jobs:
           cd demo
           pwd
           ls -lah
+
+      - name: Create ZIP
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          command: "mkdir -p /artifact"
+          type: 'tar'
+          path: /artifact
+          filename: 'release.tar'
+          exclusions: '*.git* /*node_modules/* .editorconfig'
