@@ -24,8 +24,8 @@ jobs:
       - name: Create ZIP
         uses: thedoctor0/zip-release@0.7.5
         with:
-          command: "mkdir -p /artifact"
+          command: "sudo mkdir -p /artifact"
           type: 'tar'
-          path: /artifact
+          path: '/artifact/'
           filename: 'release.tar'
           exclusions: '*.git* /*node_modules/* .editorconfig'
