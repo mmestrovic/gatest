@@ -14,3 +14,9 @@ jobs:
 
       - name: Run ls
         run: ls -alh
+
+      - name: Run ls in demo
+        run: |
+          cd demo
+          pwd
+          ls -lah
