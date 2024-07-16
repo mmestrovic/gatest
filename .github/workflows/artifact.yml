@@ -40,3 +40,4 @@ jobs:
         run: |
           pwd
           ls -lah
+          cat release.sha256sum
