@@ -29,6 +29,12 @@ jobs:
           type: 'zip'
           filename: 'release.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
+      - name: Create SHA256 checksum file
+        uses:  ToxicAven/generate-checksum-file@v2
+        with:
+          filePath: release.zip
+          saveFile: release.sha256sum
+          algorithm: 'sha256'          
 
       - name: Run ls in artifact
         run: |
