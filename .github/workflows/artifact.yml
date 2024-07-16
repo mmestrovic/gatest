@@ -28,7 +28,7 @@ jobs:
         with:
           command: "mkdir -p release"
           type: 'tar'
-          path: 'release'
+          path: './release/'
           filename: 'release.tar'
           exclusions: '*.git* /*node_modules/* .editorconfig'
 
