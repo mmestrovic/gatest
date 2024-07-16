@@ -1,0 +1,16 @@
+name: Create artifact
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    name: Build artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run ls
+        run: ls -alh
