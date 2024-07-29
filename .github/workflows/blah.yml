@@ -81,14 +81,24 @@ jobs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
 
   build:
-
       name: Build
       needs: env_check
       runs-on: ubuntu-latest
       steps:
-      - name: Echo environment
-        id: echo_env
-        shell: bash
-        run: |
-          set -e
-          echo "${{ needs.env_check.outputs.env_name }}"
+
+        - name: Set the value
+          id: step_one
+          run: echo "action_state=yellow" >> $GITHUB_ENV
+  
+        - name: Use the value
+          id: step_two
+          run: echo "${{ env.action_state }}"
+
+        - name: Echo environment
+          id: echo_env
+          shell: bash
+          run: |
+            set -e
+            echo "${{ needs.env_check.outputs.env_name }}"
+            echo "---"
+            echo "${{ env.env_name }}"
