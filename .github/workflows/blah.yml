@@ -1,0 +1,94 @@
+name: Deploy scrapers
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Select an environment
+        type: choice
+        required: true
+        default: "dev"
+        options:
+          - dev
+          - qa
+          - staging
+          - pre
+          - prod
+
+      app3:
+        type: boolean
+        description: Deploy on app3
+        default: true
+
+      app4:
+        type: boolean
+        description: Deploy on app4
+        default: true
+
+      app5:
+        type: boolean
+        description: Deploy on app5
+        default: true
+
+      app8:
+        type: boolean
+        description: Deploy on app8
+        default: true
+
+      app9:
+        type: boolean
+        description: Deploy on app9
+        default: true
+
+      app10:
+        type: boolean
+        description: Deploy on app10
+        default: true
+
+  workflow_call:
+
+env:
+  FINDOX_APP_NAME: "scrapers"
+  FINDOX_APP_PACKAGE_PATH: "/app/scrapers"
+  NETCORE_VERSION: "6.0.x"
+
+jobs:
+  env_check:
+    name: Environment check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Environment check on branch
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+
+          if [ "${{ inputs.environment }}" = "prod" ]; then
+            echo "env_name=prod" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.environment }}" = "staging" ]; then
+            echo "env_name=staging" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.environment }}" = "qa" ]; then
+            echo "env_name=qa" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.environment }}" = "pre" ]; then
+            echo "env_name=pre" >> $GITHUB_OUTPUT
+          else
+            echo "env_name=dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Use environment setup in previous step
+        run: echo "Setting up environment ${{ steps.branch_check.outputs.env_name }}"
+
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
+
+  build:
+
+      name: Build
+      needs: env_check
+      runs-on: ubuntu-latest
+      steps:
+      - name: Echo environment
+        id: echo_env
+        shell: bash
+        run: |
+          set -e
+          echo "${{ needs.env_check.outputs.env_name }}"
