@@ -105,4 +105,4 @@ jobs:
           run: echo "${{ toJSON(github.event.inputs) }}"
 
         - name: Join Inputs
-          run: echo "${{ join(github.event.inputs.*.name, ', ') }}"
+          run: echo "${{ join(github.event.inputs.name, ', ') }}"
