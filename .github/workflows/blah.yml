@@ -71,7 +71,7 @@ jobs:
           elif [ "${{ inputs.app8 }}" = "true" ]; then
             targets+=(8)
           else
-            
+            echo "no targets selected"
           fi
 
           echo ${targets[@]}
