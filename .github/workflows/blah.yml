@@ -152,12 +152,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M%S')"
+
       - name: Create ZIP
         uses: thedoctor0/zip-release@0.7.5
         with:
           path: "./demo"
           type: 'zip'
-          filename: 'demo.zip'
+          filename: 'demo-${{ steps.date.outputs.date }}.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
 
       - name: Set sha256sum to output
@@ -165,7 +169,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          echo "artifact_hash=$(sha256sum demo.zip | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+          echo "artifact_hash=$(sha256sum demo-${{ steps.date.outputs.date }}.zip | awk '{ print $1 }')" >> $GITHUB_OUTPUT
 
     outputs:
       artifact_url: "https://s3.amazon.com/ARTIFACT_URL"
