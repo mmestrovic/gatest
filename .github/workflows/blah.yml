@@ -181,7 +181,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          echo "artifact_hash=$(sha256sum demo-${{ steps.date.outputs.date }}.zip | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+          echo "artifact_hash=$(sha256sum demo-*.zip | awk '{ print $1 }')" >> $GITHUB_OUTPUT
 
     outputs:
       artifact_url: "https://s3.amazon.com/ARTIFACT_URL"
