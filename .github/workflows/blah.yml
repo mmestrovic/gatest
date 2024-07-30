@@ -147,7 +147,9 @@ jobs:
       - name: Join Inputs
         run: echo "${{ join(github.event.inputs, ', ') }}"
 
-
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - name: Create ZIP
         uses: thedoctor0/zip-release@0.7.5
         with:
