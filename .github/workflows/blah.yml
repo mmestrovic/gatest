@@ -64,15 +64,12 @@ jobs:
 
           if [ "${{ inputs.app3 }}" = "true" ]; then
             targets+=(3)
-          elif [ "${{ inputs.app4 }}" = "true" ]; then
+          if [ "${{ inputs.app4 }}" = "true" ]; then
             targets+=(4)
-          elif [ "${{ inputs.app5 }}" = "true" ]; then
+          if [ "${{ inputs.app5 }}" = "true" ]; then
             targets+=(5)
-          elif [ "${{ inputs.app8 }}" = "true" ]; then
+          if [ "${{ inputs.app8 }}" = "true" ]; then
             targets+=(8)
-          else
-            echo "no targets selected"
-          fi
 
           echo ${targets[@]}
 
