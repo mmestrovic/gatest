@@ -83,6 +83,7 @@ jobs:
   set_targets:
     name: Set targets
     runs-on: ubuntu-latest
+    environment: ${{ needs.env_check.outputs.env_name }}
     needs: env_check
     steps:
       - name: Set targets
@@ -124,6 +125,7 @@ jobs:
   build:
     name: Build
     needs: env_check
+    environment: ${{ needs.env_check.outputs.env_name }}
     runs-on: ubuntu-latest
     steps:
       - name: Set the value
@@ -149,7 +151,7 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Create ZIP
         uses: thedoctor0/zip-release@0.7.5
         with:
@@ -164,10 +166,15 @@ jobs:
         run: |
           set -e
           echo "sha256sum=$(sha256sum demo.zip | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+
+    outputs:
+      artifact_url: "https://s3.amazon.com/ARTIFACT_URL"
+      artifact_hash: ${{ steps.sha256sum.outputs }}
     
   run:
     name: Run
-    needs: [build, set_targets]
+    needs: [build, set_targets, env_check]
+    environment: ${{ needs.env_check.outputs.env_name }}
     runs-on: ubuntu-latest
     steps:
       - name: Create pillar
@@ -181,7 +188,7 @@ jobs:
           {
             "deploy": {
               "artifact_url": "${{ needs.build.outputs.artifact_url }}",
-              "artifact_hash": "${{ needs.build.outputs.sha256sum }}"
+              "artifact_hash": "${{ needs.build.outputs.artifact_hash }}"
               "env": "${{ needs.env_check.outputs.env_name }}",
               "appname": "${{ env.FINDOX_APP_NAME }}",
               "version": "1.23",
