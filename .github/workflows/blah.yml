@@ -116,7 +116,7 @@ jobs:
               echo "targets=${targets[*]}" >> $GITHUB_OUTPUT
 
       - name: Use environment setup in previous step
-        run: echo "Setting up environment ${{ steps.set_tgs.outputs.targets }}"
+        run: echo "Setting up targets ${{ steps.set_tgs.outputs.targets }}"
               
     outputs:
       targets: ${{ steps.set_tgs.outputs.targets }}
@@ -146,3 +146,32 @@ jobs:
 
       - name: Join Inputs
         run: echo "${{ join(github.event.inputs, ', ') }}"
+
+  run:
+    name: Run
+    needs: [build, set_targets]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create pillar
+        id: create_pillar
+        shell: bash
+        run: |
+
+          #!/usr/bin/env bash
+
+          JSON=$(cat <<-END
+          {
+            "deploy": {
+              "artifact_url": "https://s3.amazon.com/ARTIFACT_URL",
+              "artifact_hash": "b7176272754c3e9f0d770cec78339842396a59883c5134bb0fa66dcfa0c1dfc3"
+              "env": "staging",
+              "appname": "scrapers",
+              "version": "1.23",
+              "targets": "${{ steps.set_tgs.outputs.targets }}"
+              ]
+            }
+          }
+          END
+          )
+
+          echo "$JSON"
