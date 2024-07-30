@@ -170,6 +170,12 @@ jobs:
           filename: 'demo-${{ steps.date.outputs.date }}.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
 
+      - name: List files
+        id: ls_lah
+        shell: bash
+        run: |
+            ls -alh
+
       - name: Set sha256sum to output
         id: sha256sum
         shell: bash
