@@ -103,3 +103,6 @@ jobs:
 
         - name: Output Inputs
           run: echo "${{ toJSON(github.event.inputs) }}"
+
+        - name: Join Inputs
+          run: echo "${{ join(github.event.inputs.*, ', ') }}"
