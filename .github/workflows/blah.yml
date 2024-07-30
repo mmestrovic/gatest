@@ -60,54 +60,25 @@ jobs:
       - name: Environment check on branch
         id: branch_check
         run: |
-          targets=()
+          echo "Running on branch ${{ github.ref }}"
 
-          if [ "${{ inputs.app3 }}" = true ]; then
-            targets+=(3)
+          if [ "${{ inputs.environment }}" = "prod" ]; then
+            echo "env_name=prod" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.environment }}" = "staging" ]; then
+            echo "env_name=staging" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.environment }}" = "qa" ]; then
+            echo "env_name=qa" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.environment }}" = "pre" ]; then
+            echo "env_name=pre" >> $GITHUB_OUTPUT
+          else
+            echo "env_name=dev" >> $GITHUB_OUTPUT
           fi
-          if [ "${{ inputs.app4 }}" = true ]; then
-            targets+=(4)
-          fi
-          if [ "${{ inputs.app5 }}" = true ]; then
-            targets+=(5)
-          fi
-          if [ "${{ inputs.app8 }}" = true ]; then
-            targets+=(8)
-          fi
 
-          echo ${targets[@]}
-          IFS=,
-          echo "${targets[*]}"
+      - name: Use environment setup in previous step
+        run: echo "Setting up environment ${{ steps.branch_check.outputs.env_name }}"
 
-
-
-
-  targets_setup:
-    name: Targets
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set targets
-        id: targets
-        run: |
-              echo "Running on branch ${{ github.ref }}"
-    
-              if [ "${{ inputs.environment }}" = "prod" ]; then
-                echo "env_name=prod" >> $GITHUB_OUTPUT
-              elif [ "${{ inputs.environment }}" = "staging" ]; then
-                echo "env_name=staging" >> $GITHUB_OUTPUT
-              elif [ "${{ inputs.environment }}" = "qa" ]; then
-                echo "env_name=qa" >> $GITHUB_OUTPUT
-              elif [ "${{ inputs.environment }}" = "pre" ]; then
-                echo "env_name=pre" >> $GITHUB_OUTPUT
-              else
-                echo "env_name=dev" >> $GITHUB_OUTPUT
-              fi
-    
-      - name: Show targets
-        run: echo "Setting up environment ${{ steps.targets }}"
-    
     outputs:
-      env_name: ${{ steps.targets }}
+      env_name: ${{ steps.branch_check.outputs.env_name }}
     
 
 
