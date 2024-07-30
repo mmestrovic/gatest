@@ -79,32 +79,70 @@ jobs:
 
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
-    
 
+  set_targets:
+    name: Set targets
+    runs-on: ubuntu-latest
+    needs: env_check
+    steps:
+      - name: Set targets
+        id: set_tgs
+        run: |
+              targets=()
+
+              if [ "${{ inputs.app3 }}" = true ]; then
+                targets+=(3)
+              fi
+              if [ "${{ inputs.app4 }}" = true ]; then
+                targets+=(4)
+              fi
+              if [ "${{ inputs.app5 }}" = true ]; then
+                targets+=(5)
+              fi
+              if [ "${{ inputs.app8 }}" = true ]; then
+                targets+=(8)
+              fi
+              if [ "${{ inputs.app9 }}" = true ]; then
+                targets+=(9)
+              fi
+              if [ "${{ inputs.app10 }}" = true ]; then
+                targets+=(10)
+              fi
+
+              echo ${targets[@]}
+              IFS=,
+              echo "${targets[*]}"
+
+              echo "targets=${targets[*]}" >> $GITHUB_OUTPUT
+
+      - name: Use environment setup in previous step
+        run: echo "Setting up environment ${{ steps.set_tgs.outputs.targets }}"
+              
+    outputs:
+      targets: ${{ steps.set_tgs.outputs.targets }}
 
   build:
-      name: Build
-      needs: env_check
-      runs-on: ubuntu-latest
-      steps:
+    name: Build
+    needs: env_check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set the value
+        id: step_one
+        run: echo "action_state=yellow" >> $GITHUB_ENV
 
-        - name: Set the value
-          id: step_one
-          run: echo "action_state=yellow" >> $GITHUB_ENV
-  
-        - name: Use the value
-          id: step_two
-          run: echo "${{ env.action_state }}"
+      - name: Use the value
+        id: step_two
+        run: echo "${{ env.action_state }}"
 
-        - name: Echo environment
-          id: echo_env
-          shell: bash
-          run: |
-            set -e
-            echo "${{ needs.env_check.outputs.env_name }}"
+      - name: Echo environment
+        id: echo_env
+        shell: bash
+        run: |
+          set -e
+          echo "${{ needs.env_check.outputs.env_name }}"
 
-        - name: Output Inputs
-          run: echo "${{ toJSON(github.event.inputs) }}"
+      - name: Output Inputs
+        run: echo "${{ toJSON(github.event.inputs) }}"
 
-        - name: Join Inputs
-          run: echo "${{ join(github.event.inputs, ', ') }}"
+      - name: Join Inputs
+        run: echo "${{ join(github.event.inputs, ', ') }}"
