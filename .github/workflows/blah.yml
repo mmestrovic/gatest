@@ -156,6 +156,12 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M%S')"
 
+      - name: Print current date
+        id: print_date
+        shell: bash
+        run: |
+          echo ${{ steps.date.outputs.date }}
+
       - name: Create ZIP
         uses: thedoctor0/zip-release@0.7.5
         with:
