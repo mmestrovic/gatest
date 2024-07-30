@@ -60,25 +60,53 @@ jobs:
       - name: Environment check on branch
         id: branch_check
         run: |
-          echo "Running on branch ${{ github.ref }}"
+          targets=()
 
-          if [ "${{ inputs.environment }}" = "prod" ]; then
-            echo "env_name=prod" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.environment }}" = "staging" ]; then
-            echo "env_name=staging" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.environment }}" = "qa" ]; then
-            echo "env_name=qa" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.environment }}" = "pre" ]; then
-            echo "env_name=pre" >> $GITHUB_OUTPUT
+          if [ "${{ inputs.app3 }}" = "true" ]; then
+            targets+=(3)
+          elif [ "${{ inputs.app4 }}" = "true" ]; then
+            targets+=(4)
+          elif [ "${{ inputs.app5 }}" = "true" ]; then
+            targets+=(5)
+          elif [ "${{ inputs.app8 }}" = "true" ]; then
+            targets+=(8)
           else
-            echo "env_name=dev" >> $GITHUB_OUTPUT
+            
           fi
 
-      - name: Use environment setup in previous step
-        run: echo "Setting up environment ${{ steps.branch_check.outputs.env_name }}"
+          echo ${targets[@]}
 
+
+
+
+  targets_setup:
+    name: Targets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set targets
+        id: targets
+        run: |
+              echo "Running on branch ${{ github.ref }}"
+    
+              if [ "${{ inputs.environment }}" = "prod" ]; then
+                echo "env_name=prod" >> $GITHUB_OUTPUT
+              elif [ "${{ inputs.environment }}" = "staging" ]; then
+                echo "env_name=staging" >> $GITHUB_OUTPUT
+              elif [ "${{ inputs.environment }}" = "qa" ]; then
+                echo "env_name=qa" >> $GITHUB_OUTPUT
+              elif [ "${{ inputs.environment }}" = "pre" ]; then
+                echo "env_name=pre" >> $GITHUB_OUTPUT
+              else
+                echo "env_name=dev" >> $GITHUB_OUTPUT
+              fi
+    
+      - name: Show targets
+        run: echo "Setting up environment ${{ steps.targets }}"
+    
     outputs:
-      env_name: ${{ steps.branch_check.outputs.env_name }}
+      env_name: ${{ steps.targets }}
+    
+
 
   build:
       name: Build
@@ -105,4 +133,4 @@ jobs:
           run: echo "${{ toJSON(github.event.inputs) }}"
 
         - name: Join Inputs
-          run: echo "${{ join(github.event.inputs.name, ', ') }}"
+          run: echo "${{ join(github.event.inputs, ', ') }}"
