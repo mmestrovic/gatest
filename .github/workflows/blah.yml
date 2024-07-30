@@ -167,7 +167,7 @@ jobs:
               "env": "staging",
               "appname": "scrapers",
               "version": "1.23",
-              "targets": "${{ steps.set_tgs.outputs.targets }}"
+              "targets": "${{ needs.set_targets.outputs.targets }}"
               ]
             }
           }
