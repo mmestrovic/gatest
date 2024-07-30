@@ -147,6 +147,22 @@ jobs:
       - name: Join Inputs
         run: echo "${{ join(github.event.inputs, ', ') }}"
 
+
+      - name: Create ZIP
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          path: "./demo"
+          type: 'zip'
+          filename: 'demo.zip'
+          exclusions: '*.git* /*node_modules/* .editorconfig'
+
+      - name: Set sha256sum to output
+        id: sha256sum
+        shell: bash
+        run: |
+          set -e
+          echo "sha256sum=$(sha256sum demo.zip | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+    
   run:
     name: Run
     needs: [build, set_targets]
@@ -162,10 +178,10 @@ jobs:
           JSON=$(cat <<-END
           {
             "deploy": {
-              "artifact_url": "https://s3.amazon.com/ARTIFACT_URL",
-              "artifact_hash": "b7176272754c3e9f0d770cec78339842396a59883c5134bb0fa66dcfa0c1dfc3"
-              "env": "staging",
-              "appname": "scrapers",
+              "artifact_url": "${{ needs.build.outputs.artifact_url }}",
+              "artifact_hash": "${{ needs.build.outputs.sha256sum }}"
+              "env": "${{ needs.env_check.outputs.env_name }}",
+              "appname": "${{ env.FINDOX_APP_NAME }}",
               "version": "1.23",
               "targets": "${{ needs.set_targets.outputs.targets }}"
               ]
