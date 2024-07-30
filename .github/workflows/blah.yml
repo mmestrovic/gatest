@@ -62,14 +62,18 @@ jobs:
         run: |
           targets=()
 
-          if [ "${{ inputs.app3 }}" = "true" ]; then
+          if [ "${{ inputs.app3 }}" = true ]; then
             targets+=(3)
-          if [ "${{ inputs.app4 }}" = "true" ]; then
+          fi
+          if [ "${{ inputs.app4 }}" = true ]; then
             targets+=(4)
-          if [ "${{ inputs.app5 }}" = "true" ]; then
+          fi
+          if [ "${{ inputs.app5 }}" = true ]; then
             targets+=(5)
-          if [ "${{ inputs.app8 }}" = "true" ]; then
+          fi
+          if [ "${{ inputs.app8 }}" = true ]; then
             targets+=(8)
+          fi
 
           echo ${targets[@]}
 
