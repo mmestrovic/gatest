@@ -1,4 +1,4 @@
-name: Deploy scrapers
+name: Blah
 
 on:
   workflow_dispatch:
