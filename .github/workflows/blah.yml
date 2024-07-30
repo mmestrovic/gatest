@@ -76,6 +76,8 @@ jobs:
           fi
 
           echo ${targets[@]}
+          IFS=,
+          echo "${targets[*]}"
 
 
 
